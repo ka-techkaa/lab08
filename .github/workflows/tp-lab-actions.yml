@@ -1,0 +1,17 @@
+name: tp-lab-actions
+run-name: ${{ github.actor }} is running docker container
+on: [push]
+jobs:
+  test:
+    runs-on: ubuntu-latest
+    steps:
+      - name: checkout
+        uses: actions/checkout@v4
+      - name: Build and run in Docker container
+        run: docker build -t solver_v1 ${{github.workspace}}
+      - name: Run tests
+        run: docker run -v ${{github.workspace}}/logs:/home/logs solver_v1
+      - name: Check container
+        run: cat ${{github.workspace}}/logs/log.txt
+
+
